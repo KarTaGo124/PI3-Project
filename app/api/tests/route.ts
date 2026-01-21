@@ -149,8 +149,7 @@ export async function POST(request: NextRequest) {
   const { error: updateError } = await supabase
     .from('patients')
     .update({
-      status: patientStatus,
-      last_test_date: body.test_date
+      status: patientStatus
     })
     .eq('id', body.patient_id);
 
