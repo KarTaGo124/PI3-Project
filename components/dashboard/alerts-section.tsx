@@ -9,7 +9,7 @@ import Link from 'next/link';
 interface Alert {
   id: string;
   patientName: string;
-  patientId: number;
+  patientId: string;
   metalType: string;
   level: number;
   unit: string;

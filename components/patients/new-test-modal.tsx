@@ -19,7 +19,7 @@ interface NewTestModalProps {
     isOpen: boolean;
     onClose: () => void;
     onSuccess: () => void;
-    patientId: number;
+    patientId: string;
 }
 
 export function NewTestModal({

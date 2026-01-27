@@ -12,7 +12,7 @@ import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 
 interface Patient {
-  id: number;
+  id: string;
   first_name: string;
   last_name: string;
   age: number;

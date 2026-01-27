@@ -13,7 +13,7 @@ import { Suspense } from 'react';
 import Loading from './loading';
 
 interface Patient {
-  id: number;
+  id: string;
   first_name: string;
   last_name: string;
   age: number;
@@ -23,7 +23,7 @@ interface Patient {
 interface Alert {
   id: string;
   patientName: string;
-  patientId: number;
+  patientId: string;
   metalType: string;
   level: number;
   unit: string;

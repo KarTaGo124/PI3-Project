@@ -20,7 +20,7 @@ import { MetalValueCard } from '@/components/patients/metal-value-card';
 import { NewTestModal } from '@/components/patients/new-test-modal';
 
 interface Patient {
-  id: number;
+  id: string;
   first_name: string;
   last_name: string;
   age: number;
@@ -34,8 +34,8 @@ interface Patient {
 }
 
 interface Test {
-  id: number;
-  patient_id: number;
+  id: string;
+  patient_id: string;
   test_date: string;
   lead_level: number;
   cadmium_level: number;

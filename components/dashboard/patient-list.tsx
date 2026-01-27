@@ -7,7 +7,7 @@ import { ChevronRight, AlertTriangle } from 'lucide-react';
 import Link from 'next/link';
 
 interface Patient {
-  id: number;
+  id: string;
   first_name: string;
   last_name: string;
   age: number;

@@ -28,7 +28,7 @@ export async function GET() {
 
         // Transform alerts to match frontend format
         const transformedAlerts = (alerts || []).map((alert: any) => ({
-            id: alert.id.toString(),
+            id: alert.id,
             patientName: alert.patients
                 ? `${alert.patients.first_name} ${alert.patients.last_name}`
                 : 'Desconocido',

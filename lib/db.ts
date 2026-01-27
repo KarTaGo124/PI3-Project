@@ -3,7 +3,7 @@
 // Replace with your actual database connection logic
 
 interface Patient {
-  id: number;
+  id: string;
   first_name: string;
   last_name: string;
   date_of_birth: string;
@@ -16,8 +16,8 @@ interface Patient {
 }
 
 interface MetalTest {
-  id: number;
-  patient_id: number;
+  id: string;
+  patient_id: string;
   test_date: string;
   lead_level?: number;
   cadmium_level?: number;
@@ -29,8 +29,8 @@ interface MetalTest {
 }
 
 interface Referral {
-  id: number;
-  patient_id: number;
+  id: string;
+  patient_id: string;
   specialist_type: string;
   reason: string;
   status: 'pending' | 'completed' | 'cancelled';
@@ -43,7 +43,7 @@ interface Referral {
 }
 
 interface AlertRule {
-  id: number;
+  id: string;
   metal_type: 'lead' | 'cadmium' | 'arsenic';
   critical_threshold: number;
   alert_threshold: number;
@@ -56,21 +56,21 @@ const mockMetalTests: MetalTest[] = [];
 const mockReferrals: Referral[] = [];
 const mockAlertRules: AlertRule[] = [
   {
-    id: 1,
+    id: '1',
     metal_type: 'lead',
     critical_threshold: 45,
     alert_threshold: 25,
     unit: 'µg/dL',
   },
   {
-    id: 2,
+    id: '2',
     metal_type: 'cadmium',
     critical_threshold: 2.5,
     alert_threshold: 1.5,
     unit: 'µg/L',
   },
   {
-    id: 3,
+    id: '3',
     metal_type: 'arsenic',
     critical_threshold: 15,
     alert_threshold: 8,

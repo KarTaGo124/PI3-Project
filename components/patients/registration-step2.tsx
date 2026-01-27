@@ -42,7 +42,7 @@ export function RegistrationStep2({
 
           // Pre-select if initialData has ID
           if (initialData.guardianId) {
-            const found = data.guardians.find((g: any) => g.id.toString() === initialData.guardianId.toString());
+            const found = data.guardians.find((g: any) => g.id === initialData.guardianId);
             if (found) setSelectedGuardian(found);
           }
         }
@@ -57,7 +57,7 @@ export function RegistrationStep2({
     const guardianId = e.target.value;
     setFormData(prev => ({ ...prev, guardianId }));
 
-    const guardian = guardians.find(g => g.id.toString() === guardianId);
+    const guardian = guardians.find(g => g.id === guardianId);
     setSelectedGuardian(guardian || null);
   };
 
