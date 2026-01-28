@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
     email,
     password,
     options: {
+      emailRedirectTo: `${request.nextUrl.origin}/auth/callback`,
       data: {
         first_name: firstName,
         last_name: lastName,
