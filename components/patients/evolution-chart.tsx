@@ -38,15 +38,21 @@ export function EvolutionChart({ tests }: EvolutionChartProps) {
     }));
   };
 
-  const chartData = tests.map(test => ({
-    date: new Date(test.date).toLocaleDateString('es-PE', {
-      month: 'short',
-      day: 'numeric',
-    }),
-    Plomo: test.lead,
-    Cadmio: test.cadmium,
-    Arsénico: test.arsenic,
-  }));
+  const chartData = tests.map(test => {
+    // Fix: Parse YYYY-MM-DD manually to avoid UTC conversion issues
+    const [year, month, day] = test.date.split('-').map(Number);
+    const dateObj = new Date(year, month - 1, day);
+
+    return {
+      date: dateObj.toLocaleDateString('es-PE', {
+        month: 'short',
+        day: 'numeric',
+      }),
+      Plomo: test.lead,
+      Cadmio: test.cadmium,
+      Arsénico: test.arsenic,
+    };
+  });
 
   return (
     <div className="space-y-4">

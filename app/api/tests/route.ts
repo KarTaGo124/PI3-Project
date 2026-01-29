@@ -86,6 +86,23 @@ export async function POST(request: NextRequest) {
 
   const body = await request.json();
 
+
+
+  // 0. Validate if test already exists for this date
+  const { data: existingTest } = await supabase
+    .from('metal_tests')
+    .select('id')
+    .eq('patient_id', body.patient_id)
+    .eq('test_date', body.test_date)
+    .single();
+
+  if (existingTest) {
+    return NextResponse.json(
+      { error: 'Ya existe un registro de prueba para este paciente en esta fecha.' },
+      { status: 400 }
+    );
+  }
+
   // 1. Insert the test
   const { data: testData, error: testError } = await supabase
     .from('metal_tests')
