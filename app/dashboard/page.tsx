@@ -8,6 +8,7 @@ import { KPICard } from '@/components/dashboard/kpi-card';
 import { PatientList } from '@/components/dashboard/patient-list';
 import { AlertsSection } from '@/components/dashboard/alerts-section';
 import { Plus, BarChart3, Search, LogOut } from 'lucide-react';
+import { GuardianView } from '@/components/dashboard/guardian-view';
 import Link from 'next/link';
 import { Suspense } from 'react';
 import Loading from './loading';
@@ -107,114 +108,62 @@ export default function DashboardPage() {
   // --- VISTA TUTOR (GUARDIAN) ---
   if (userRole === 'guardian') {
     return (
-      <main className="min-h-screen bg-background">
-        {/* Header Tutor */}
-        <div className="border-b bg-white sticky top-0 z-40">
-          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="p-2 bg-blue-100 rounded-full">
-                  <span className="text-2xl">👨‍👩‍👧‍👦</span>
-                </div>
-                <div>
-                  <h1 className="text-2xl font-bold">Mis Hijos</h1>
-                  <p className="text-sm text-muted-foreground">
-                    Panel de Familia - {userProfile?.first_name} {userProfile?.last_name}
-                  </p>
-                </div>
-              </div>
-              <Button
-                variant="outline"
-                className="gap-2 bg-transparent"
-                onClick={handleLogout}
-                disabled={isLoading}
-              >
-                <LogOut className="w-4 h-4" />
-                Salir
-              </Button>
-            </div>
-          </div>
-        </div>
-
-        {/* Content Tutor */}
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          {patients.length === 0 ? (
-            <div className="text-center py-12">
-              <h3 className="text-lg font-medium text-muted-foreground">No tienes pacientes vinculados.</h3>
-              <p>Contacta al administrador si crees que esto es un error.</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {patients.map((patient) => (
-                <Link href={`/patients/${patient.id}`} key={patient.id} className="block group">
-                  <div className={`p-6 rounded-xl border-2 transition-all hover:shadow-md ${patient.status === 'critical' ? 'border-red-200 bg-red-50/50' :
-                    patient.status === 'alert' ? 'border-yellow-200 bg-yellow-50/50' :
-                      'border-gray-100 bg-white'
-                    }`}>
-                    <div className="flex justify-between items-start mb-4">
-                      <div>
-                        <h3 className="text-xl font-bold group-hover:text-blue-600 transition-colors">
-                          {patient.first_name} {patient.last_name}
-                        </h3>
-                        <p className="text-muted-foreground">{patient.age} años</p>
-                      </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-semibold ${patient.status === 'critical' ? 'bg-red-100 text-red-700' :
-                        patient.status === 'alert' ? 'bg-yellow-100 text-yellow-700' :
-                          'bg-green-100 text-green-700'
-                        }`}>
-                        {patient.status === 'critical' ? 'Atención Requerida' :
-                          patient.status === 'alert' ? 'Observación' : 'Normal'}
-                      </span>
-                    </div>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          )}
-        </div>
-      </main>
+      <GuardianView
+        userProfile={userProfile}
+        patients={patients}
+        onLogout={handleLogout}
+        isLoading={isLoading}
+      />
     );
   }
 
   // --- VISTA DOCTOR (DEFAULT) ---
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-background pb-20 md:pb-8">
       {/* Header Doctor */}
-      <div className="border-b bg-white sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <div className="border-b bg-white sticky top-0 z-40 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary rounded-lg">
-                <BarChart3 className="w-6 h-6 text-primary-foreground" />
+              <div className="p-2 bg-primary/10 rounded-lg">
+                <BarChart3 className="w-6 h-6 text-primary" />
               </div>
-              <div>
-                <h1 className="text-2xl font-bold">Monitoreo Médico</h1>
-                <p className="text-sm text-muted-foreground">
-                  La Oroya, Perú {userRole === 'doctor' && userProfile ? `- Dr. ${userProfile.last_name}` : ''}
-                </p>
+              <div className="hidden sm:block">
+                <h1 className="text-xl font-bold">Monitoreo Médico</h1>
+                <p className="text-xs text-muted-foreground">La Oroya</p>
               </div>
             </div>
+
+            {/* Mobile Actions */}
             <div className="flex gap-2">
               <Link href="/search">
-                <Button variant="outline" className="gap-2 bg-transparent">
+                <Button variant="ghost" size="icon" className="sm:hidden text-muted-foreground">
+                  <Search className="w-5 h-5" />
+                </Button>
+                <Button variant="outline" className="hidden sm:flex gap-2 bg-transparent">
                   <Search className="w-4 h-4" />
                   Buscar
                 </Button>
               </Link>
+
               <Link href="/patients/new">
-                <Button className="gap-2">
+                <Button size="icon" className="sm:hidden rounded-full h-10 w-10 shadow-md">
+                  <Plus className="w-5 h-5" />
+                </Button>
+                <Button className="hidden sm:flex gap-2">
                   <Plus className="w-4 h-4" />
                   Nuevo Paciente
                 </Button>
               </Link>
+
               <Button
-                variant="outline"
-                className="gap-2 bg-transparent"
+                variant="ghost"
+                size="icon"
                 onClick={handleLogout}
                 disabled={isLoading}
+                className="text-muted-foreground"
               >
-                <LogOut className="w-4 h-4" />
-                Salir
+                <LogOut className="w-5 h-5" />
               </Button>
             </div>
           </div>
@@ -222,9 +171,15 @@ export default function DashboardPage() {
       </div>
 
       {/* Main Content Doctor */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {/* Helper for small screens: show Dr Name */}
+        <div className="sm:hidden mb-6">
+          <h2 className="text-lg font-bold">Hola, Dr. {userProfile?.last_name || 'Médico'}</h2>
+          <p className="text-sm text-muted-foreground">Resumen del día</p>
+        </div>
+
         {/* KPIs */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
           <KPICard
             label="Casos Críticos"
             value={criticalCount}
@@ -232,7 +187,7 @@ export default function DashboardPage() {
             color="red"
           />
           <KPICard
-            label="Total de Pacientes"
+            label="Total Pacientes"
             value={patients.length}
             icon="patients"
             color="blue"
@@ -249,16 +204,18 @@ export default function DashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Left Column - Alerts and Recent Activity */}
           <div className="lg:col-span-2 space-y-6">
-            <Suspense fallback={<Loading />}>
-              <AlertsSection alerts={alerts} />
-            </Suspense>
+            <div className="bg-white rounded-xl shadow-sm border p-1">
+              <Suspense fallback={<Loading />}>
+                <AlertsSection alerts={alerts} />
+              </Suspense>
+            </div>
           </div>
 
           {/* Right Column - Quick Stats */}
           <div className="space-y-6">
             <PatientList
               patients={patients.slice(0, 3)}
-              title="Pacientes Recientes"
+              title="Recientes"
               filter="all"
             />
           </div>

@@ -16,8 +16,8 @@ import {
 import Link from 'next/link';
 import { EvolutionChart } from '@/components/patients/evolution-chart';
 import { MetalValueCard } from '@/components/patients/metal-value-card';
-
 import { NewTestModal } from '@/components/patients/new-test-modal';
+import { GuardianPatientView } from '@/components/patients/guardian-patient-view';
 
 interface Patient {
   id: string;
@@ -79,6 +79,7 @@ export default function PatientProfilePage({
   const [loading, setLoading] = useState(true);
   const [showNewTest, setShowNewTest] = useState(false);
   const [canCreateTest, setCanCreateTest] = useState(false);
+  const [userRole, setUserRole] = useState<'doctor' | 'guardian' | 'unknown'>('unknown');
 
   useEffect(() => {
     fetchData();
@@ -92,9 +93,9 @@ export default function PatientProfilePage({
       const roleRes = await fetch('/api/auth/me');
       if (roleRes.ok) {
         const roleData = await roleRes.json();
-        const { role } = roleData;
+        setUserRole(roleData.role);
         // Only doctors have full permission to create data
-        setCanCreateTest(role === 'doctor');
+        setCanCreateTest(roleData.role === 'doctor');
       }
 
       // 2. Fetch patient details
@@ -133,6 +134,17 @@ export default function PatientProfilePage({
     );
   }
 
+  // --- GUARDIAN VIEW ---
+  if (userRole === 'guardian') {
+    return (
+      <GuardianPatientView
+        patient={patient}
+        tests={tests}
+      />
+    );
+  }
+
+  // --- DOCTOR VIEW ---
   const latestTest = tests.length > 0 ? tests[0] : null;
   const status = latestTest
     ? calculateStatus(latestTest.lead_level, latestTest.cadmium_level, latestTest.arsenic_level)
