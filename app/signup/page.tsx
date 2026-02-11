@@ -4,10 +4,10 @@ import React from "react"
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
-import { BarChart3 } from 'lucide-react';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -72,14 +72,8 @@ export default function SignupPage() {
     <main className="min-h-screen bg-gradient-to-br from-background to-secondary flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo */}
-        <div className="flex items-center justify-center gap-3 mb-8">
-          <div className="p-2 bg-primary rounded-lg">
-            <BarChart3 className="w-6 h-6 text-primary-foreground" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">Monitoreo Médico</h1>
-            <p className="text-xs text-muted-foreground">La Oroya, Perú</p>
-          </div>
+        <div className="flex items-center justify-center mb-8">
+          <Image src="/logo.png" alt="MetaTrace" width={220} height={80} priority />
         </div>
 
         <Card className="p-8 shadow-lg">

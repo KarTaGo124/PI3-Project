@@ -7,7 +7,8 @@ import { Button } from '@/components/ui/button';
 import { KPICard } from '@/components/dashboard/kpi-card';
 import { PatientList } from '@/components/dashboard/patient-list';
 import { AlertsSection } from '@/components/dashboard/alerts-section';
-import { Plus, BarChart3, Search, LogOut } from 'lucide-react';
+import Image from 'next/image';
+import { Plus, Search, LogOut } from 'lucide-react';
 import { GuardianView } from '@/components/dashboard/guardian-view';
 import Link from 'next/link';
 import { Suspense } from 'react';
@@ -125,13 +126,7 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <BarChart3 className="w-6 h-6 text-primary" />
-              </div>
-              <div className="hidden sm:block">
-                <h1 className="text-xl font-bold">Monitoreo Médico</h1>
-                <p className="text-xs text-muted-foreground">La Oroya</p>
-              </div>
+              <Image src="/logo.png" alt="MetaTrace" width={160} height={48} priority />
             </div>
 
             {/* Mobile Actions */}
